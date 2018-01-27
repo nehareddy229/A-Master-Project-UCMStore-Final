@@ -1,0 +1,64 @@
+﻿@model UCMStore.Models.CartModel
+<!--Created by Anumalla
+    ID-700648600
+   
+     Creating a table for the product Details--> 
+<table class="table">
+    <tr class="row">
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+    </tr>
+    <tr class="row">
+       
+         <td>
+            <img src="@Url.Content(Model.ProductImage)" height="100" width="100" />
+        </td>
+        <td>@Model.ProductName</td>
+        <td>@Convert.ToDecimal(Model.Price).ToString("0.##")</td>
+        <td>@Model.Quantity</td>
+        <td>@Convert.ToDecimal(Model.Total).ToString("0.##")</td>
+        <td>@Model.CouponCode</td>
+
+    </tr>
+    <tr class="row">
+        <td colspan="3">&nbsp;</td>
+        <th>Total</th>
+        <td>@Convert.ToDecimal(Model.Total).ToString("0.##")</td>
+    </tr>
+</table>
+
+    <div class="row">
+        
+    @if (ViewBag.Message == null)
+    {
+        <div class="col-md-8">
+            @using (Html.BeginForm())
+            {
+                <div class="input-group">
+
+                    <input id="CouponCode" name="CouponCode" type="text" class="form-control" placeholder="Coupon Code">
+                   
+                    <span class="input-group-btn">
+                        <button id="btnApply" class="btn btn-default" type="submit">Apply Coupon</button>
+                    </span>
+                </div>
+            }
+
+        </div>
+    }
+    <div class="col-md-4">
+        @ViewBag.Message
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-4 pull-right">
+        <a href="@Url.Action("Address","Payment")" class="btn btn-primary">Continue</a>
+    </div>
+</div>
+
+

@@ -1,0 +1,30 @@
+﻿@{ Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";}
+@model IEnumerable<UCMStore.Models.DealModel>
+
+<div>
+    @Html.ActionLink("Add Deal", "Add", "Deals")
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Deal Id</th>
+                <th>Title</th>
+                <th>Active</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.DealId </td>
+                    <td>@item.Title </td>
+                    <td>@item.Active </td>
+                    <td><a href="@Url.Action("Update","Deals",new { id=item.DealId})">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

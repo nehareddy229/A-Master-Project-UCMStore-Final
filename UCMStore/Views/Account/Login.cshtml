@@ -1,0 +1,42 @@
+﻿@model UCMStore.Models.LogOnModel
+
+<h2>Log On</h2>
+<p>
+    Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.
+</p>
+@using (Html.BeginForm("Login", "Account", new { returnUrl = Request.QueryString["ReturnUrl"] }))
+
+
+
+{
+    @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+    
+    <div>
+        <fieldset>
+            <legend>Account Information</legend>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserName, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "label-control" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password) 
+                    </div>
+
+                    <div class="form-group">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        @Html.LabelFor(m => m.RememberMe)
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-default" value="Log On" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+} 

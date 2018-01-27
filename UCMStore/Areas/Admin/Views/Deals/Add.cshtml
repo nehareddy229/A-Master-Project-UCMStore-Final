@@ -1,0 +1,36 @@
+﻿@{ Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";}
+@model UCMStore.Models.DealModel
+
+<h2>Add Deal</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <fieldset>
+            <legend></legend>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label">Title</label>
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Title)
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Image</label>
+                        <input type="file" name="Image" id="Image" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Active</label>
+                        @Html.CheckBoxFor(m => m.Active)
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-default" value="Save" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+} 

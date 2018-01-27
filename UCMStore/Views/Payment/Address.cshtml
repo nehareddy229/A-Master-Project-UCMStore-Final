@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Address";
+}
+
+@model UCMStore.Models.ShippingAddressModel
+
+<h2>Shipping Address</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <fieldset>
+            <legend></legend>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                                      <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Mobile, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Mobile)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Address, new { @class = "label-control" })
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Address)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.City, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.City)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ZipCode, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ZipCode)
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Continue" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+}

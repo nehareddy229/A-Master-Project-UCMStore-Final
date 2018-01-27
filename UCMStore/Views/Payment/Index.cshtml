@@ -1,0 +1,75 @@
+﻿@model UCMStore.Models.PaymentModel
+
+@{ var month = new List<int>();
+    month.Add(1);
+    month.Add(2);
+    month.Add(3);
+    month.Add(4);
+    month.Add(5);
+    month.Add(6);
+    month.Add(7);
+    month.Add(8);
+    month.Add(9);
+    month.Add(10);
+    month.Add(11);
+    month.Add(12);
+
+    var year = new List<int>();
+    
+    year.Add(2017);
+    year.Add(2018);
+    year.Add(2019);
+    year.Add(2020);
+    year.Add(2021);
+    year.Add(2022);
+    year.Add(2023);
+    year.Add(2024);
+    year.Add(2025);
+    year.Add(2026);
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.Amount)
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">Amount</label>
+            <div class="col-md-5">
+                <label class="form-control">@Convert.ToDecimal(Model.Amount).ToString("0.##") </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Card No</label>
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.CardNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CardNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Month</label>
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.ExpiryMonth, new SelectList(month), "-Select-", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ExpiryMonth)
+            </div>
+            <label class="control-label col-md-1">Year</label>
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.ExpiryYear, new SelectList(year), "-Select-", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ExpiryYear)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">CVV</label>
+            <div class="col-md-2">
+                @Html.PasswordFor(m => m.CVV, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CVV)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-default">Pay Now</button>
+            </div>
+        </div>
+    </div>
+}

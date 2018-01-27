@@ -1,0 +1,42 @@
+﻿@model IEnumerable<UCMStore.Models.OrderModel>
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Id</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Order Status</th>
+                    <th>Order On</th>
+                    <th>Delivered On</th>
+                    <th>Coupon Code</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>@item.OrderId</td>
+                        <td>@item.ProductName</td>
+                        <td>@Convert.ToDecimal( item.Price).ToString("0.##")</td>
+                        <td>@item.Quantity</td>
+                        <td>@Convert.ToDecimal(item.Price * item.Quantity).ToString("0.##")</td>
+                        <td>@item.OrderStatus</td>
+                        <td>@Convert.ToDateTime(item.OrderOn).ToShortDateString()</td>
+                        <td>@(item.DeliveredOn==null?"":Convert.ToDateTime(item.DeliveredOn).ToShortDateString())</td>
+                        <td>@item.CouponCode</td>
+                        <td>
+                            @if (item.OrderStatusId == 1)
+                            {
+                                <a href="@Url.Action("ViewOrder", "Order" , new { id=item.OrderId })">View</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

@@ -1,0 +1,65 @@
+﻿@model UCMStore.Models.RegisterModel
+
+<h2>Register to UCM Store</h2>
+<p>
+    Use the form below to create a new account using UCM Credentials
+</p>
+<p>
+    Passwords are required to be a minimum of 6 characters in length.Use 700 Number and ucmo.edu email address.
+</p>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+    <div>
+        <fieldset>
+            <legend>Account Information</legend>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserName,new { @class="label-control"})
+                        @Html.TextBoxFor(m => m.UserName,new { @class="form-control"})
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Mobile, new { @class = "label-control" })
+                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Mobile)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "label-control" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "label-control" })
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Register" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+}

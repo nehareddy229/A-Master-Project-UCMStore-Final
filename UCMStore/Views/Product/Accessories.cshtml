@@ -1,0 +1,30 @@
+﻿@model IEnumerable<UCMStore.Models.ProductModel>
+    @{ int index = 0;}
+    <div class="row">
+        <div class="page-header">Accessories</div>
+    </div>
+    @foreach (var item in Model)
+    {
+        if (index == 0)
+        {
+            @:<div class="row">
+        }
+        <div class="col-xs-6 col-md-3">
+            <div class="thumbnail">
+                <img src="@Url.Content(item.ProductImage)" alt="@item.Name">
+                <div class="caption">
+                    <h3>@item.Name</h3>
+                    <p>@Convert.ToDecimal(item.Price).ToString("0.##")</p>
+                    <p><a href="@Url.Action("Detail","Product",new { id=item.Name.ToLower().Replace(" ","-")})" class="btn btn-primary" role="button">Buy</a></p>
+                </div>
+            </div>
+        </div>
+
+        if (index == 3)
+        {
+            @:        </div>
+            index = 0;
+        }
+
+        index++;
+    }

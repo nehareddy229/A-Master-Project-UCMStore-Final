@@ -1,0 +1,58 @@
+﻿@{ Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";}
+@model UCMStore.Models.ProductModel
+
+<h2>Add Product</h2>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <fieldset>
+            <legend></legend>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Price</label>
+                        @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Price)
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Image</label>
+                        <input type="file" name="Image" id="Image" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Brand</label>
+                        @Html.DropDownListFor(m => m.BrandId, new SelectList(Model.BrandList, "BrandId", "Name", Model.BrandId), "-Select-", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.BrandId)
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Active</label>
+                        @Html.CheckBoxFor(m => m.Active)
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Accessories</label>
+                        @Html.CheckBoxFor(m => m.IsAccessories)
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Description)
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    } 

@@ -1,0 +1,19 @@
+﻿@model UCMStore.Models.CartModel
+
+<div class="alert alert-success">
+    <h2>
+        Shipping Confirmation Details:
+    </h2>
+    
+    <p align="center" class="text-capitalize">  &#9733;@Model.ShippingAddress.Name </p>
+    <p align="center" class="text-capitalize">  &#9733;@Model.ShippingAddress.Address </p>
+    <p align="center" class="text-capitalize">  &#9733;@Model.ShippingAddress.City</p>
+    <p align="center" class="text-capitalize">  &#9733;@Model.ShippingAddress.ZipCode</p>
+    <p align="center" class="text-capitalize">  &#9733;<b class="text-capitalize"> @Model.ProductName </b></p>
+    
+    <p align="center">
+        Thanks for Choosing  UCM.
+    </p>
+    
+    <img src="~/images/UCM Mule.jpg" width="300" height="300" align="middle" /> 
+</div>    

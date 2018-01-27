@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+@model IEnumerable<UCMStore.Models.CouponModel>
+
+<div>
+    @Html.ActionLink("Add Coupon", "Add", "Coupon")
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Coupon Id</th>
+                <th>Code</th>
+                <th>Discount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CouponId</td>
+                    <td>@item.CouponCode</td>
+                    <td>@item.Discount</td>
+                    <td><a href="@Url.Action("Edit","Coupon",new { id=item.CouponId})">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

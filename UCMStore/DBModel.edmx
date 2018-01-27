@@ -1,0 +1,601 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBUCMStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Coupon">
+          <Key>
+            <PropertyRef Name="CouponId" />
+          </Key>
+          <Property Name="CouponId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CouponCode" Type="varchar" MaxLength="20" />
+          <Property Name="Discount" Type="int" />
+        </EntityType>
+        <EntityType Name="Deals">
+          <Key>
+            <PropertyRef Name="DealId" />
+          </Key>
+          <Property Name="DealId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="100" />
+          <Property Name="Image" Type="varchar" MaxLength="100" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="OrderStatusId" Type="int" />
+          <Property Name="OrderOn" Type="datetime" />
+          <Property Name="DeliveredOn" Type="datetime" />
+          <Property Name="CouponApplied" Type="bit" />
+          <Property Name="CouponId" Type="int" />
+        </EntityType>
+        <EntityType Name="OrderStatus">
+          <Key>
+            <PropertyRef Name="OrderStatusId" />
+          </Key>
+          <Property Name="OrderStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="CardNo" Type="varchar" MaxLength="16" />
+          <Property Name="ExpiryMonth" Type="int" />
+          <Property Name="ExpiryYear" Type="int" />
+          <Property Name="CVV" Type="int" />
+          <Property Name="PaidOn" Type="date" />
+          <Property Name="PaymentStatus" Type="varchar" MaxLength="10" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Price" Type="money" />
+          <Property Name="Image" Type="varchar" MaxLength="100" />
+          <Property Name="BrandId" Type="int" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="IsAccessories" Type="bit" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ShippingAddress">
+          <Key>
+            <PropertyRef Name="ShippingAddressId" />
+          </Key>
+          <Property Name="ShippingAddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Mobile" Type="varchar" MaxLength="15" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="ZipCode" Type="int" />
+          <Property Name="OrderId" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="10" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Mobile" Type="varchar" MaxLength="10" />
+          <Property Name="Password" Type="varchar" MaxLength="20" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <Association Name="FK__Orders__CouponId__36B12243">
+          <End Role="Coupon" Type="Self.Coupon" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coupon">
+              <PropertyRef Name="CouponId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CouponId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__OrderSta__2E1BDC42">
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="OrderStatusId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="OrderStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__ProductI__2C3393D0">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__UserId__2D27B809">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__OrderId__6FE99F9F">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__BrandId__276EDEB3">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShippingA__Order__30F848ED">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="ShippingAddress" Type="Self.ShippingAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="ShippingAddress">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBUCMStoreModelStoreContainer">
+          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coupon" EntityType="Self.Coupon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deals" EntityType="Self.Deals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippingAddress" EntityType="Self.ShippingAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Orders__CouponId__36B12243" Association="Self.FK__Orders__CouponId__36B12243">
+            <End Role="Coupon" EntitySet="Coupon" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__OrderSta__2E1BDC42" Association="Self.FK__Orders__OrderSta__2E1BDC42">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__ProductI__2C3393D0" Association="Self.FK__Orders__ProductI__2C3393D0">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__UserId__2D27B809" Association="Self.FK__Orders__UserId__2D27B809">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__OrderId__6FE99F9F" Association="Self.FK__Payment__OrderId__6FE99F9F">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__BrandId__276EDEB3" Association="Self.FK__Product__BrandId__276EDEB3">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ShippingA__Order__30F848ED" Association="Self.FK__ShippingA__Order__30F848ED">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="ShippingAddress" EntitySet="ShippingAddress" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBUCMStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DBEcomEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Brands" EntityType="DBUCMStoreModel.Brand" />
+          <EntitySet Name="Coupons" EntityType="DBUCMStoreModel.Coupon" />
+          <EntitySet Name="Deals" EntityType="DBUCMStoreModel.Deal" />
+          <EntitySet Name="Orders" EntityType="DBUCMStoreModel.Order" />
+          <EntitySet Name="OrderStatus" EntityType="DBUCMStoreModel.OrderStatu" />
+          <EntitySet Name="Payments" EntityType="DBUCMStoreModel.Payment" />
+          <EntitySet Name="Products" EntityType="DBUCMStoreModel.Product" />
+          <EntitySet Name="ShippingAddresses" EntityType="DBUCMStoreModel.ShippingAddress" />
+          <EntitySet Name="Users" EntityType="DBUCMStoreModel.User" />
+          <AssociationSet Name="FK__Product__BrandId__276EDEB3" Association="DBUCMStoreModel.FK__Product__BrandId__276EDEB3">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__CouponId__36B12243" Association="DBUCMStoreModel.FK__Orders__CouponId__36B12243">
+            <End Role="Coupon" EntitySet="Coupons" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__OrderSta__2E1BDC42" Association="DBUCMStoreModel.FK__Orders__OrderSta__2E1BDC42">
+            <End Role="OrderStatu" EntitySet="OrderStatus" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__ProductI__2C3393D0" Association="DBUCMStoreModel.FK__Orders__ProductI__2C3393D0">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__UserId__2D27B809" Association="DBUCMStoreModel.FK__Orders__UserId__2D27B809">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__OrderId__6FE99F9F" Association="DBUCMStoreModel.FK__Payment__OrderId__6FE99F9F">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ShippingA__Order__30F848ED" Association="DBUCMStoreModel.FK__ShippingA__Order__30F848ED">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="ShippingAddress" EntitySet="ShippingAddresses" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Products" Relationship="DBUCMStoreModel.FK__Product__BrandId__276EDEB3" FromRole="Brand" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Coupon">
+          <Key>
+            <PropertyRef Name="CouponId" />
+          </Key>
+          <Property Name="CouponId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CouponCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Discount" Type="Int32" />
+          <NavigationProperty Name="Orders" Relationship="DBUCMStoreModel.FK__Orders__CouponId__36B12243" FromRole="Coupon" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Deal">
+          <Key>
+            <PropertyRef Name="DealId" />
+          </Key>
+          <Property Name="DealId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="OrderStatusId" Type="Int32" />
+          <Property Name="OrderOn" Type="DateTime" Precision="3" />
+          <Property Name="DeliveredOn" Type="DateTime" Precision="3" />
+          <Property Name="CouponApplied" Type="Boolean" />
+          <Property Name="CouponId" Type="Int32" />
+          <NavigationProperty Name="Coupon" Relationship="DBUCMStoreModel.FK__Orders__CouponId__36B12243" FromRole="Order" ToRole="Coupon" />
+          <NavigationProperty Name="OrderStatu" Relationship="DBUCMStoreModel.FK__Orders__OrderSta__2E1BDC42" FromRole="Order" ToRole="OrderStatu" />
+          <NavigationProperty Name="Product" Relationship="DBUCMStoreModel.FK__Orders__ProductI__2C3393D0" FromRole="Order" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="DBUCMStoreModel.FK__Orders__UserId__2D27B809" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="Payments" Relationship="DBUCMStoreModel.FK__Payment__OrderId__6FE99F9F" FromRole="Order" ToRole="Payment" />
+          <NavigationProperty Name="ShippingAddresses" Relationship="DBUCMStoreModel.FK__ShippingA__Order__30F848ED" FromRole="Order" ToRole="ShippingAddress" />
+        </EntityType>
+        <EntityType Name="OrderStatu">
+          <Key>
+            <PropertyRef Name="OrderStatusId" />
+          </Key>
+          <Property Name="OrderStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders" Relationship="DBUCMStoreModel.FK__Orders__OrderSta__2E1BDC42" FromRole="OrderStatu" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="CardNo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="ExpiryMonth" Type="Int32" />
+          <Property Name="ExpiryYear" Type="Int32" />
+          <Property Name="CVV" Type="Int32" />
+          <Property Name="PaidOn" Type="DateTime" Precision="0" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Order" Relationship="DBUCMStoreModel.FK__Payment__OrderId__6FE99F9F" FromRole="Payment" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BrandId" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="IsAccessories" Type="Boolean" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Brand" Relationship="DBUCMStoreModel.FK__Product__BrandId__276EDEB3" FromRole="Product" ToRole="Brand" />
+          <NavigationProperty Name="Orders" Relationship="DBUCMStoreModel.FK__Orders__ProductI__2C3393D0" FromRole="Product" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="ShippingAddress">
+          <Key>
+            <PropertyRef Name="ShippingAddressId" />
+          </Key>
+          <Property Name="ShippingAddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <NavigationProperty Name="Order" Relationship="DBUCMStoreModel.FK__ShippingA__Order__30F848ED" FromRole="ShippingAddress" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Orders" Relationship="DBUCMStoreModel.FK__Orders__UserId__2D27B809" FromRole="User" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK__Product__BrandId__276EDEB3">
+          <End Type="DBUCMStoreModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="DBUCMStoreModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__CouponId__36B12243">
+          <End Type="DBUCMStoreModel.Coupon" Role="Coupon" Multiplicity="0..1" />
+          <End Type="DBUCMStoreModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coupon">
+              <PropertyRef Name="CouponId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CouponId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__OrderSta__2E1BDC42">
+          <End Type="DBUCMStoreModel.OrderStatu" Role="OrderStatu" Multiplicity="0..1" />
+          <End Type="DBUCMStoreModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatu">
+              <PropertyRef Name="OrderStatusId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__ProductI__2C3393D0">
+          <End Type="DBUCMStoreModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="DBUCMStoreModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__UserId__2D27B809">
+          <End Type="DBUCMStoreModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="DBUCMStoreModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__OrderId__6FE99F9F">
+          <End Type="DBUCMStoreModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="DBUCMStoreModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShippingA__Order__30F848ED">
+          <End Type="DBUCMStoreModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="DBUCMStoreModel.ShippingAddress" Role="ShippingAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="ShippingAddress">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBUCMStoreModelStoreContainer" CdmEntityContainer="DBEcomEntities">
+          <EntitySetMapping Name="Brands">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.Brand">
+              <MappingFragment StoreEntitySet="Brand">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coupons">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.Coupon">
+              <MappingFragment StoreEntitySet="Coupon">
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+                <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deals">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.Deal">
+              <MappingFragment StoreEntitySet="Deals">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="DealId" ColumnName="DealId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+                <ScalarProperty Name="CouponApplied" ColumnName="CouponApplied" />
+                <ScalarProperty Name="DeliveredOn" ColumnName="DeliveredOn" />
+                <ScalarProperty Name="OrderOn" ColumnName="OrderOn" />
+                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatus">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.OrderStatu">
+              <MappingFragment StoreEntitySet="OrderStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="PaidOn" ColumnName="PaidOn" />
+                <ScalarProperty Name="CVV" ColumnName="CVV" />
+                <ScalarProperty Name="ExpiryYear" ColumnName="ExpiryYear" />
+                <ScalarProperty Name="ExpiryMonth" ColumnName="ExpiryMonth" />
+                <ScalarProperty Name="CardNo" ColumnName="CardNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsAccessories" ColumnName="IsAccessories" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShippingAddresses">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.ShippingAddress">
+              <MappingFragment StoreEntitySet="ShippingAddress">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShippingAddressId" ColumnName="ShippingAddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBUCMStoreModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

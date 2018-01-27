@@ -1,0 +1,24 @@
+﻿<!--Created By Neha Reddy Anumalla
+       ID-700648600
+       This is UCM STORE ECOMMERCE PROJECT-->
+
+@if (Request.IsAuthenticated)
+{
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Hello, <strong class="text-capitalize"> @User.Identity.Name !</strong>
+        </a>
+        MULES AND JENNIES
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li>@Html.ActionLink("Manage", "ChangePassword", "Account")</li>
+            <li>@Html.ActionLink("Order", "Index", "Order")</li>
+            <li role="separator" class="divider"></li>
+            <li>@Html.ActionLink("Log Off", "LogOff", "Account")</li>
+        </ul>
+    </li>
+}
+else
+{
+    <li>@Html.ActionLink("Log in", "Login", "Account")</li>
+    <li>@Html.ActionLink("Register", "Register", "Account")</li>
+}
